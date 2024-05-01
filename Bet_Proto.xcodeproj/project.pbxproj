@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C616B32B2BE27F9900093465 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C616B32A2BE27F9900093465 /* UserDataManager.swift */; };
 		C624AEF72BD7E917007B4324 /* Bet_ProtoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624AEF62BD7E917007B4324 /* Bet_ProtoApp.swift */; };
 		C624AEF92BD7E917007B4324 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C624AEF82BD7E917007B4324 /* ContentView.swift */; };
 		C624AEFB2BD7E918007B4324 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C624AEFA2BD7E918007B4324 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C616B32A2BE27F9900093465 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		C624AEF32BD7E917007B4324 /* Bet_Proto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bet_Proto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C624AEF62BD7E917007B4324 /* Bet_ProtoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bet_ProtoApp.swift; sourceTree = "<group>"; };
 		C624AEF82BD7E917007B4324 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				C624AEF62BD7E917007B4324 /* Bet_ProtoApp.swift */,
 				C624AEF82BD7E917007B4324 /* ContentView.swift */,
 				C624AF2B2BD91428007B4324 /* ProfilePage.swift */,
+				C616B32A2BE27F9900093465 /* UserDataManager.swift */,
 				C624AF252BD91289007B4324 /* SettingsPage.swift */,
 				C624AF272BD913DF007B4324 /* FriendsPage.swift */,
 				C624AF232BD9112A007B4324 /* CAPage.swift */,
@@ -279,6 +282,7 @@
 			files = (
 				C624AF242BD9112A007B4324 /* CAPage.swift in Sources */,
 				C624AEF92BD7E917007B4324 /* ContentView.swift in Sources */,
+				C616B32B2BE27F9900093465 /* UserDataManager.swift in Sources */,
 				C624AF2C2BD91428007B4324 /* ProfilePage.swift in Sources */,
 				C624AEF72BD7E917007B4324 /* Bet_ProtoApp.swift in Sources */,
 				C624AF222BD84449007B4324 /* MainPage.swift in Sources */,

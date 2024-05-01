@@ -91,6 +91,8 @@ struct CAPage: View {
                     
                     NavigationLink(destination: MainPage().navigationBarBackButtonHidden(true), isActive: $showingMainPage) {
                         Button("Start Betting"){
+                            createAccount()
+                            printUsers()
                             showingMainPage = true
                         }
                         .padding(5)
@@ -102,6 +104,34 @@ struct CAPage: View {
                 }
             }
         }
+    }
+    func createAccount() {
+           // Validate input, for example, ensure passwords match, etc.
+           
+           // Create a User object
+           let newUser = User(createUsername: createUsername,
+                              createPassword: createPassword,
+                              email: email,
+                              day: day,
+                              month: month,
+                              year: year)
+           
+           // Save the user using UserDataManager
+           UserDataManager.shared.saveUser(newUser)
+           
+           // Set showingMainPage to true to navigate to the next page
+           showingMainPage = true
+    }
+    func printUsers() {
+        let userManager = UserDataManager.shared
+        let users = userManager.getUsers()
+
+        // Now you can use the 'users' array to access the list of signed-up users
+        for user in users {
+            print("Username: \(user.createUsername)")
+            print("Email: \(user.email)")
+        }
+                  
     }
 }
 struct CAPage_Previews: PreviewProvider {
