@@ -11,7 +11,17 @@ struct ProfilePage: View {
     
     var body: some View {
         ZStack{
-            Text("Profile Page")
+            Color.black
+                .ignoresSafeArea()
+            VStack{
+                Text("Profile")
+                    .foregroundColor(.white)
+                    .padding()
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.bold)
+                Spacer()
+                
+            }
         }
     }
 }

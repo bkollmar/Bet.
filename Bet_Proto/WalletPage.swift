@@ -11,7 +11,17 @@ struct WalletPage: View {
     
     var body: some View {
         ZStack{
-            Text("Wallet Page")
+            Color.black
+                .ignoresSafeArea()
+            VStack{
+                Text("Wallet")
+                    .foregroundColor(.white)
+                    .padding()
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.bold)
+                Spacer()
+                
+            }
         }
     }
 }

@@ -11,7 +11,17 @@ struct SettingsPage: View {
     
     var body: some View {
         ZStack{
-            Text("Settings Page")
+            Color.black
+                .ignoresSafeArea()
+            VStack{
+                Text("Settings")
+                    .foregroundColor(.white)
+                    .padding()
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.bold)
+                Spacer()
+                
+            }
         }
     }
 }

@@ -11,7 +11,17 @@ struct FriendsPage: View {
     
     var body: some View {
         ZStack{
-            Text("Friends Page")
+            Color.black
+                .ignoresSafeArea()
+            VStack{
+                Text("Friends")
+                    .foregroundColor(.white)
+                    .padding()
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .fontWeight(.bold)
+                Spacer()
+                
+            }
         }
     }
 }
