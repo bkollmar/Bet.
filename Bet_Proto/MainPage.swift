@@ -68,7 +68,7 @@ struct MainPage: View {
                         .padding(.top, 100) // Add padding to move the text field down
                     
                     TextField("Who Do You Want To Bet?", text: $userBetting)
-                        .padding(5)
+                        .padding(6)
                         .background(Color.white)
                         .foregroundColor(.black)
                         .cornerRadius(10)
@@ -76,7 +76,7 @@ struct MainPage: View {
                         .padding(.top, 30) // Add padding to move the text field down
                     
                     TextField("What Are You Betting On?", text: $userBettingNote)
-                        .padding(5)
+                        .padding(6)
                         .background(Color.white)
                         .foregroundColor(.black)
                         .cornerRadius(10)

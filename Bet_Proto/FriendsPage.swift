@@ -128,7 +128,9 @@ struct FriendsPage: View {
                                                     .fontWeight(.bold)
                                             }
                                             Button(action: {
-                                                isFriendAdded2.toggle()
+                                                withAnimation {
+                                                    isFriendAdded2.toggle()
+                                                }
                                             }) {
                                                 
                                                 Spacer() // move to the left
@@ -162,7 +164,9 @@ struct FriendsPage: View {
                                                     .fontWeight(.bold)
                                             }
                                             Button(action: {
-                                                isFriendAdded3.toggle()
+                                                withAnimation {
+                                                    isFriendAdded3.toggle()
+                                                }
                                             }) {
                                                 
                                                 Spacer() // move to the left
@@ -196,7 +200,9 @@ struct FriendsPage: View {
                                                     .fontWeight(.bold)
                                             }
                                             Button(action: {
-                                                isFriendAdded4.toggle()
+                                                withAnimation {
+                                                    isFriendAdded4.toggle()
+                                                }
                                             }) {
                                                 
                                                 Spacer() // move to the left
@@ -230,7 +236,9 @@ struct FriendsPage: View {
                                                     .fontWeight(.bold)
                                             }
                                             Button(action: {
-                                                isFriendAdded5.toggle()
+                                                withAnimation {
+                                                    isFriendAdded5.toggle()
+                                                }
                                             }) {
                                                 
                                                 Spacer() // move to the left
@@ -264,7 +272,9 @@ struct FriendsPage: View {
                                                     .fontWeight(.bold)
                                             }
                                             Button(action: {
-                                                isFriendAdded6.toggle()
+                                                withAnimation {
+                                                    isFriendAdded6.toggle()
+                                                }
                                             }) {
                                                 
                                                 Spacer() // move to the left

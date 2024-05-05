@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Firebase
+
+
 
 struct CAPage: View {
-    @State private var createUsername = ""
     @State private var createPassword = ""
     @State private var confirmPassword = ""
     @State private var email = ""
@@ -16,7 +18,6 @@ struct CAPage: View {
     @State private var month: String = ""
     @State private var year: String = ""
     @State private var showingMainPage = false
-    @State private var passwordMismatch = false
     @State private var userNameEmpty = false
     @State private var passwordEmpty = false
     @State private var confirmPasswordEmpty  = false
@@ -24,6 +25,9 @@ struct CAPage: View {
     @State private var dayEmpty = false
     @State private var monthEmpty = false
     @State private var yearEmpty = false
+    
+    
+    
     
     var body: some View {
         
@@ -33,195 +37,163 @@ struct CAPage: View {
                     .ignoresSafeArea()
                 VStack{
                     
-//                    Text("Bet.")
-//                        .foregroundColor(.white)
-//                        .font(.title)
-//                        .fontWeight(.bold)
-//                        .padding(.top, -200)
-//                        .padding(.bottom, 10)
-//                        .padding(.trailing, 300)
-                    
                     Text("Create Your Account")
                         .foregroundColor(.white)
                         .font(.title)
                         .fontWeight(.bold)
-                        .padding(.bottom, 100)
-                    
-                    TextField("Choose a Username", text: $createUsername)
-                        .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(userNameEmpty ? Color.red : Color.clear, lineWidth: 2)
-                                    .padding(-4)
-                            )
-                        .padding(5)
-                        .foregroundColor(.black)
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .frame(width: 250, height:30)
-                        
-                    
-                    SecureField("Choose a Password", text: $createPassword)
-                        .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(passwordEmpty ? Color.red : Color.clear, lineWidth: 2)
-                                    .padding(-4)
-                            )
-                        .padding(5)
-                        .foregroundColor(.black)
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .frame(width: 250, height:30)
-                    
-                    SecureField("Confirm Your Password", text: $confirmPassword)
-                        .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(confirmPasswordEmpty ? Color.red : Color.clear, lineWidth: 2)
-                                    .padding(-4)
-                            )
-                        .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(passwordMismatch ? Color.red : Color.clear, lineWidth: 2)
-                                    .padding(-4)
-                            )
-                        .padding(5)
-                        .foregroundColor(.black)
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .frame(width: 250, height:30)
+                        .padding(.bottom, 70)
                     
                     TextField("Enter Your Email", text: $email)
                         .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(emailEmpty ? Color.red : Color.clear, lineWidth: 2)
-                                    .padding(-4)
-                            )
-                        .padding(5)
-                        .foregroundColor(.black)
-                        .background(Color.white)
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(emailEmpty ? Color.red : Color.clear, lineWidth: 2)
+                                .padding(-4)
+                        )
+                        .padding(7)
+                        .colorScheme(.dark)
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(10)
+                        .frame(width: 250, height:30)
+                        .padding(.bottom, 10)
+                    
+                    
+                    SecureField("Choose a Password", text: $createPassword)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(passwordEmpty ? Color.red : Color.clear, lineWidth: 2)
+                                .padding(-4)
+                        )
+                        .padding(7)
+                        .colorScheme(.dark)
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(10)
+                        .frame(width: 250, height:30)
+                        .padding(.bottom, 10)
+                    
+                    SecureField("Confirm Your Password", text: $confirmPassword)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(confirmPasswordEmpty ? Color.red : Color.clear, lineWidth: 2)
+                                .padding(-4)
+                        )
+                    
+                        .padding(7)
+                        .colorScheme(.dark)
+                        .background(Color.white.opacity(0.2))
                         .cornerRadius(10)
                         .frame(width: 250, height:30)
                     
-                    Text("When Were You Born")
+                    
+                    
+                    Text("Enter Your Birth Date")
                         .padding()
                         .foregroundColor(.white)
-                        .font(.headline)
+                        .font(.title2)
                         .fontWeight(.bold)
                     
                     HStack(spacing: 10) {
                         TextField("DD", text: $day)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding()
                             .border(dayEmpty ? Color.red : Color.clear)
-                            .frame(width: 50)
-                        
+                            .frame(width: 61)
+                            .colorScheme(.dark)
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(10)
                         TextField("MM", text: $month)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding()
                             .border(monthEmpty ? Color.red : Color.clear)
-                            .frame(width: 50)
+                            .frame(width: 61)
+                            .colorScheme(.dark)
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(10)
                         
                         TextField("YYYY", text: $year)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding()
                             .border(yearEmpty ? Color.red : Color.clear)
-                            .frame(width: 70)
+                            .frame(width: 75)
+                            .colorScheme(.dark)
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(10)
                         
                     }
                     .padding(.bottom, 20)
-                
+                    
                     VStack {
                         NavigationLink(destination: MainPage().navigationBarBackButtonHidden(true), isActive: $showingMainPage) {
-                                }
+                        }
                         Button("Start Betting"){
-                            if day.isEmpty {
-                                dayEmpty = true
-                            } else {
-                                dayEmpty = false
-                            }
-                            if month.isEmpty {
-                                monthEmpty = true
-                            } else {
-                                monthEmpty = false
-                            }
-                            if year.isEmpty {
-                                yearEmpty = true
-                            } else {
-                                yearEmpty = false
-                            }
-                            if createUsername.isEmpty {
-                                userNameEmpty = true
-                            } else {
-                                userNameEmpty = false
-                            }
-                            if createPassword.isEmpty {
-                                passwordEmpty = true
-                            } else {
-                                passwordEmpty = false
-                            }
-                            if confirmPassword.isEmpty {
-                                confirmPasswordEmpty = true
-                            } else {
-                                confirmPasswordEmpty = false
-                            }
-                            if email.isEmpty {
-                                emailEmpty = true
-                            } else {
-                                emailEmpty = false
-                            }
-                            
-                            if createPassword == confirmPassword { // Check if passwords match
-                                passwordMismatch = false // Reset password mismatch state
-                            } else {
-                                passwordMismatch = true
-                            }
-                            if !day.isEmpty && createPassword == confirmPassword && !month.isEmpty && !year.isEmpty && !email.isEmpty && !createUsername.isEmpty && !createPassword.isEmpty && !confirmPassword.isEmpty
-                            {
-                                showingMainPage = true
-                                createAccount()
-                                printUsers()
-                            }
+                            register()
                             
                         }
-                        .padding(5)
+                        .padding(7)
                         .foregroundColor(.white)
-                        .background(Color.white.opacity(0.5))
+                        .background(Color.gray.opacity(0.6))
                         .cornerRadius(10)
                         .frame(width:200, height:20)
+                        
+                        
                     }
                 }
             }
         }
-    }
-    func createAccount() {
-        // Validate input, for example, ensure passwords match, etc.
         
-        // Create a User object
-        
-        let newUser = User(createUsername: createUsername,
-                          createPassword: createPassword,
-                          email: email,
-                          day: day,
-                          month: month,
-                          year: year)
-
-        // Save the user using UserDataManager
-        UserDataManager.shared.saveUser(newUser)
-
-        // Set showingMainPage to true to navigate to the next page
-        showingMainPage = true
     }
-    func printUsers() {
-        let userManager = UserDataManager.shared
-        let users = userManager.getUsers()
-
-        // Now you can use the 'users' array to access the list of signed-up users
-        for user in users {
-            print("Username: \(user.createUsername)")
-            print("Email: \(user.email)")
+    
+    func register(){
+        if day.isEmpty {
+            dayEmpty = true
+        } else {
+            dayEmpty = false
         }
-                  
-    }
-}
-struct CAPage_Previews: PreviewProvider {
-    static var previews: some View {
-        CAPage()
+        if month.isEmpty {
+            monthEmpty = true
+        } else {
+            monthEmpty = false
+        }
+        if year.isEmpty {
+            yearEmpty = true
+        } else {
+            yearEmpty = false
+        }
+        if createPassword.isEmpty {
+            passwordEmpty = true
+        } else {
+            passwordEmpty = false
+        }
+        if confirmPassword.isEmpty {
+            confirmPasswordEmpty = true
+        } else {
+            confirmPasswordEmpty = false
+        }
+        if email.isEmpty {
+            emailEmpty = true
+        } else {
+            emailEmpty = false
+        }
         
+        
+        if !day.isEmpty  && !month.isEmpty && !year.isEmpty && !email.isEmpty && !createPassword.isEmpty && !confirmPassword.isEmpty
+        {
+            
+            Auth.auth().createUser(withEmail: email, password: createPassword) { authResult, error in
+                if let error = error {
+                    // Handle Firebase authentication error
+                    return
+                } else {
+                    showingMainPage = true
+                }
+            }
+            
+        }
+        
+    }
+    
+    
+    
+    struct CAPage_Previews: PreviewProvider {
+        static var previews: some View {
+            CAPage()
+            
+        }
     }
 }

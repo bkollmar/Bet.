@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import Firebase
+
 
 struct ContentView: View {
     
-    @State private var username = ""
+    @State private var email = ""
     @State private var password = ""
     @State private var wrongUsername = 0
     @State private var wrongPassword = 0
@@ -32,7 +35,7 @@ struct ContentView: View {
                         .bold()
                         .padding(.top, -250)
                     
-                    TextField("Username", text: $username)
+                    TextField("E-mail", text: $email)
                         .padding()
                         .frame(width: 300, height: 50)
                         .background(Color.white.opacity(0.2))
@@ -51,13 +54,20 @@ struct ContentView: View {
                     HStack{
                         
                         Button("Login"){
-                            authenticateUser(username: username, password: password)
+                            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+                                if let error = error {
+                                    // Handle Firebase authentication error
+                                    return
+                                } else {
+                                    showingMainPage = true
+                                }
+                            }
                             
                         }
                         
                         .foregroundColor(.white)
                         .frame(width: 140, height: 30)
-                        .background(Color.white.opacity(0.5))
+                        .background(Color.gray.opacity(0.6))
                         .cornerRadius(10)
                         .padding(.trailing, 8)
                         
@@ -67,43 +77,25 @@ struct ContentView: View {
                         
                         NavigationLink(destination: CAPage(), isActive: $showingCAPage){
                             Button("Register"){
-                                goToCaPage()
+                                showingCAPage = true
                             }
                             
                             .foregroundColor(.white)
                             .frame(width: 140, height: 30)
-                            .background(Color.white.opacity(0.5))
+                            .background(Color.gray.opacity(0.6
+                                                          ))
                             .cornerRadius(10)
                             .padding(.leading, 8)
                         }
                     }
                 }
             }
-            .navigationBarHidden(true)
-            
+            .navigationBarBackButtonHidden(true)
         }
-        
-    }
-
-    func authenticateUser(username: String, password: String){
-        if username == "Ben" {
-            wrongUsername = 0
-            if password == "123" {
-                wrongPassword = 0
-                showingMainPage = true
-            } else {
-                wrongPassword = 2
-            }
-        } else {
-            wrongUsername = 2
-        }
-    }
-    
-    func goToCaPage() {
-        showingCAPage = true
     }
     
 }
+
 
 #Preview {
     ContentView()
