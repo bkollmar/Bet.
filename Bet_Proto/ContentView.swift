@@ -9,10 +9,9 @@ import SwiftUI
 import FirebaseCore
 import Firebase
 
-
 struct ContentView: View {
     
-    @State private var email = ""
+    @State var email = ""
     @State private var password = ""
     @State private var wrongUsername = 0
     @State private var wrongPassword = 0
@@ -55,14 +54,13 @@ struct ContentView: View {
                         
                         Button("Login"){
                             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-                                if let error = error {
-                                    // Handle Firebase authentication error
-                                    return
-                                } else {
-                                    showingMainPage = true
-                                }
+//                                if let error = error {
+//                                    // Handle Firebase authentication error
+//                                    return
+//                                } else {
+                                showingMainPage = true
+//                                }
                             }
-                            
                         }
                         
                         .foregroundColor(.white)
@@ -93,9 +91,7 @@ struct ContentView: View {
             .navigationBarBackButtonHidden(true)
         }
     }
-    
 }
-
 
 #Preview {
     ContentView()

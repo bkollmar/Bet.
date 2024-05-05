@@ -25,7 +25,6 @@ struct ProfilePage: View {
                         
                         Spacer()
                         
-                        
                         Image(systemName: "person")
                             .foregroundColor(.white)
                         
@@ -52,12 +51,9 @@ struct ProfilePage: View {
                     }
                     Spacer()
                 }
-                
             }
-            
         }
     }
-    
 }
 struct ProfilePage_Previews: PreviewProvider {
     static var previews: some View {
