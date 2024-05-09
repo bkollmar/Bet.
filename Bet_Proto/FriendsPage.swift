@@ -9,11 +9,6 @@ import SwiftUI
 
 struct FriendsPage: View {
     @State private var isFriendAdded = false
-    @State private var isFriendAdded2 = false
-    @State private var isFriendAdded3 = false
-    @State private var isFriendAdded4 = false
-    @State private var isFriendAdded5 = false
-    @State private var isFriendAdded6 = false
     
     var body: some View {
         NavigationView{
@@ -30,7 +25,6 @@ struct FriendsPage: View {
                             .fontWeight(.bold)
                         
                         Spacer()
-                        
                         
                         NavigationLink(destination: ProfilePage().navigationBarBackButtonHidden()) {
                             Image(systemName: "person")
@@ -111,186 +105,7 @@ struct FriendsPage: View {
                                     .opacity(isFriendAdded ? 0.5 : 1.0)
                                     .animation(.easeInOut(duration: 0.5))
                             }
-                            if !isFriendAdded2 {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .foregroundColor(.white)
-                                    .frame(width: 350, height: 100)
-                                
-                                    .overlay(
-                                        HStack {
-                                            Spacer()
-                                            VStack {
-                                                Image(systemName: "person.circle")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 100, height: 60)
-                                                Text("Mary Jane")
-                                                    .fontWeight(.bold)
-                                            }
-                                            Button(action: {
-                                                withAnimation {
-                                                    isFriendAdded2.toggle()
-                                                }
-                                            }) {
-                                                
-                                                Spacer() // move to the left
-                                                
-                                                Text("Add Friend")
-                                                    .foregroundColor(.white)
-                                                    .padding(10)
-                                                    .background(Color.black.opacity(0.8))
-                                                    .cornerRadius(10)
-                                                    .frame(width: 175, height: 10)
-                                            }
-                                        }
-                                    )
-                                    .opacity(isFriendAdded2 ? 0.5 : 1.0)
-                                    .animation(.easeInOut(duration: 0.5))
-                            }
-                            if !isFriendAdded3 {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .foregroundColor(.white)
-                                    .frame(width: 350, height: 100)
-                                
-                                    .overlay(
-                                        HStack {
-                                            Spacer()
-                                            VStack {
-                                                Image(systemName: "person.circle")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 100, height: 60)
-                                                Text("Tom Brown")
-                                                    .fontWeight(.bold)
-                                            }
-                                            Button(action: {
-                                                withAnimation {
-                                                    isFriendAdded3.toggle()
-                                                }
-                                            }) {
-                                                
-                                                Spacer() // move to the left
-                                                
-                                                Text("Add Friend")
-                                                    .foregroundColor(.white)
-                                                    .padding(10)
-                                                    .background(Color.black.opacity(0.8))
-                                                    .cornerRadius(10)
-                                                    .frame(width: 175, height: 10)
-                                            }
-                                        }
-                                    )
-                                    .opacity(isFriendAdded3 ? 0.5 : 1.0)
-                                    .animation(.easeInOut(duration: 0.5))
-                            }
-                            if !isFriendAdded4 {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .foregroundColor(.white)
-                                    .frame(width: 350, height: 100)
-                                
-                                    .overlay(
-                                        HStack {
-                                            Spacer()
-                                            VStack {
-                                                Image(systemName: "person.circle")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 100, height: 60)
-                                                Text("Jake River")
-                                                    .fontWeight(.bold)
-                                            }
-                                            Button(action: {
-                                                withAnimation {
-                                                    isFriendAdded4.toggle()
-                                                }
-                                            }) {
-                                                
-                                                Spacer() // move to the left
-                                                
-                                                Text("Add Friend")
-                                                    .foregroundColor(.white)
-                                                    .padding(10)
-                                                    .background(Color.black.opacity(0.8))
-                                                    .cornerRadius(10)
-                                                    .frame(width: 175, height: 10)
-                                            }
-                                        }
-                                    )
-                                    .opacity(isFriendAdded4 ? 0.5 : 1.0)
-                                    .animation(.easeInOut(duration: 0.5))
-                            }
-                            if !isFriendAdded5 {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .foregroundColor(.white)
-                                    .frame(width: 350, height: 100)
-                                
-                                    .overlay(
-                                        HStack {
-                                            Spacer()
-                                            VStack {
-                                                Image(systemName: "person.circle")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 100, height: 60)
-                                                Text("Haley Sand")
-                                                    .fontWeight(.bold)
-                                            }
-                                            Button(action: {
-                                                withAnimation {
-                                                    isFriendAdded5.toggle()
-                                                }
-                                            }) {
-                                                
-                                                Spacer() // move to the left
-                                                
-                                                Text("Add Friend")
-                                                    .foregroundColor(.white)
-                                                    .padding(10)
-                                                    .background(Color.black.opacity(0.8))
-                                                    .cornerRadius(10)
-                                                    .frame(width: 175, height: 10)
-                                            }
-                                        }
-                                    )
-                                    .opacity(isFriendAdded5 ? 0.5 : 1.0)
-                                    .animation(.easeInOut(duration: 0.5))
-                            }
-                            if !isFriendAdded6 {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .foregroundColor(.white)
-                                    .frame(width: 350, height: 100)
-                                
-                                    .overlay(
-                                        HStack {
-                                            Spacer()
-                                            VStack {
-                                                Image(systemName: "person.circle")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                                    .frame(width: 100, height: 60)
-                                                Text("Kevin Snow")
-                                                    .fontWeight(.bold)
-                                            }
-                                            Button(action: {
-                                                withAnimation {
-                                                    isFriendAdded6.toggle()
-                                                }
-                                            }) {
-                                                
-                                                Spacer() // move to the left
-                                                
-                                                Text("Add Friend")
-                                                    .foregroundColor(.white)
-                                                    .padding(10)
-                                                    .background(Color.black.opacity(0.8))
-                                                    .cornerRadius(10)
-                                                    .frame(width: 175, height: 10)
-                                            }
-                                        }
-                                    )
-                                    .opacity(isFriendAdded6 ? 0.5 : 1.0)
-                                    .animation(.easeInOut(duration: 0.5))
-                            }
+                            
                             Spacer()
                         }
                         
@@ -336,7 +151,6 @@ struct FriendsPage: View {
                             }
                         }
                     }
-                    
                 }
             }
         }

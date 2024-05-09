@@ -130,13 +130,9 @@ struct MainPage: View {
                     .cornerRadius(10)
                     Spacer()
                 }
-                
-                
             }
             .navigationBarBackButtonHidden(true)
-            
         }
-        
     }
 }
     

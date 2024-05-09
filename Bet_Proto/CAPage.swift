@@ -4,17 +4,23 @@
 //
 //  Created by Ben Kollmar on 4/24/24.
 //
-
 import SwiftUI
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import PhotosUI
+import FirebaseStorage
 
 struct CAPage: View {
-    @State private var username = ""
+    @State private var profilePicture: UIImage? = nil
+    @State var userProfilePicData: Data?
+    
+    @State var userName = ""
+    @State private var friends = []
     @State private var createPassword = ""
     @State private var confirmPassword = ""
-    @State private var email = ""
+    @State var email = ""
+    @State var password = ""
     @State private var day: String = ""
     @State private var month: String = ""
     @State private var year: String = ""
@@ -28,7 +34,18 @@ struct CAPage: View {
     @State private var yearEmpty = false
     
     
-    
+    // MARK: - View Properties
+    @Environment(\.dismiss) var dismiss
+    @State var showImagePicker: Bool = false
+    @State var photoItem: PhotosPickerItem?
+    @State var showError: Bool = false
+    @State var errorMessage: String = ""
+   
+    // MARK: - UserDefaults
+    @AppStorage("log_status") var logStatus: Bool = false
+    @AppStorage("user_profile_url") var profileURL: URL?
+    @AppStorage("user_name") var userNameStored: String = ""
+    @AppStorage("user_UID") var userUID: String = ""
     
     var body: some View {
         
@@ -42,9 +59,50 @@ struct CAPage: View {
                         .foregroundColor(.white)
                         .font(.title)
                         .fontWeight(.bold)
-                        .padding(.bottom, 70)
+                        .padding(.bottom, 20)
                     
-                    TextField("Choose a Username", text: $username)
+                    .photosPicker(isPresented: $showImagePicker, selection: $photoItem)
+                    .onChange(of: photoItem) { newValue in
+                        // Extracting UIImage From PhotoItem
+                        if let newValue {
+                            Task {
+                                do {
+                                    guard let imageData = try await newValue.loadTransferable(type: Data.self) else { return }
+                                    // Must update on Main Thread
+                                    await MainActor.run {
+                                        userProfilePicData = imageData
+                                    }
+                                } catch {
+                                    await setError(error)
+                                }
+                            }
+                        }
+                    }
+                    .alert(errorMessage, isPresented: $showError, actions: {})
+                    
+                    ZStack {
+                        if let userProfilePicData, let image = UIImage(data: userProfilePicData) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .foregroundColor(.white)
+                                .padding()
+                        } else {
+                            Image(systemName: "person")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .foregroundColor(.white)
+                                .padding()
+                        }
+                    }
+                    .frame(width: 85, height: 85)
+                    .clipShape(Circle())
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        showImagePicker.toggle()
+                    }
+                    
+                    TextField("Username", text: $userName)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(userNameEmpty ? Color.red : Color.clear, lineWidth: 2)
@@ -57,7 +115,7 @@ struct CAPage: View {
                         .frame(width: 250, height:30)
                         .padding(.bottom, 10)
                     
-                    TextField("Enter Your Email", text: $email)
+                    TextField("E-mail", text: $email)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(emailEmpty ? Color.red : Color.clear, lineWidth: 2)
@@ -70,8 +128,7 @@ struct CAPage: View {
                         .frame(width: 250, height:30)
                         .padding(.bottom, 10)
                     
-                    
-                    SecureField("Choose a Password", text: $createPassword)
+                    SecureField("Password", text: $createPassword)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(passwordEmpty ? Color.red : Color.clear, lineWidth: 2)
@@ -84,7 +141,7 @@ struct CAPage: View {
                         .frame(width: 250, height:30)
                         .padding(.bottom, 10)
                     
-                    SecureField("Confirm Your Password", text: $confirmPassword)
+                    SecureField("Confirm Password", text: $confirmPassword)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(confirmPasswordEmpty ? Color.red : Color.clear, lineWidth: 2)
@@ -96,8 +153,6 @@ struct CAPage: View {
                         .background(Color.white.opacity(0.2))
                         .cornerRadius(10)
                         .frame(width: 250, height:30)
-                    
-                    
                     
                     Text("Enter Your Birth Date")
                         .padding()
@@ -137,7 +192,6 @@ struct CAPage: View {
                         }
                         Button("Start Betting"){
                             register()
-                            
                         }
                         .padding(7)
                         .foregroundColor(.white)
@@ -149,6 +203,13 @@ struct CAPage: View {
                 }
             }
         }
+    }
+    
+    func setError(_ error: Error) async {
+        await MainActor.run(body: {
+            errorMessage = error.localizedDescription
+            showError.toggle()
+        })
     }
     
     func register(){
@@ -182,61 +243,54 @@ struct CAPage: View {
         } else {
             emailEmpty = false
         }
-        if username.isEmpty {
+        if userName.isEmpty {
             userNameEmpty = true
         } else {
             userNameEmpty = false
         }
         
-        
-        if !day.isEmpty  && !month.isEmpty && !year.isEmpty && !email.isEmpty && !createPassword.isEmpty && !confirmPassword.isEmpty && !username.isEmpty
+        if !day.isEmpty  && !month.isEmpty && !year.isEmpty && !email.isEmpty && !createPassword.isEmpty && !confirmPassword.isEmpty && !userName.isEmpty
         {
-             createUser()
-             createUserProfile()
+            createUser()
+            showingMainPage = true
+            return
         }
-        
     }
     
     func createUser() {
-        Auth.auth().createUser(withEmail: email, password: createPassword) { authResult, error in
-            if let error = error {
-                print("Error adding document")
-            } else {
-                showingMainPage = true
-            }
-        }
+        Task {
+           do {
+               // Step 1: Create Firebase Account
+               try await Auth.auth().createUser(withEmail: email, password: createPassword)
+               // Step 2: Updating Profile Photo Info Firebase Storage
+               guard let userUID = Auth.auth().currentUser?.uid else { return }
+               guard let imageData = userProfilePicData else { return }
+               let storageRef = Storage.storage().reference().child("Profile_Image").child(userUID)
+               let _ = try await storageRef.putDataAsync(imageData)
+               // Step 3: Downloading Photo URL
+               let downloadURL = try await storageRef.downloadURL()
+               // Step 4: Create a User FireStore Object
+               let user = User(username: userName, userUID: userUID, userEmail: email, userProfileURL: downloadURL)
+               // Step 5: Saving User Doc info Firestore Database
+               let _ = try Firestore.firestore().collection("users").document(userUID).setData(from: user) { error in
+                   if error == nil {
+                       // Print Saved Successfully
+                       print("Saved Successfully")
+                       userNameStored = userName
+                       self.userUID = userUID
+                       profileURL = downloadURL
+                       logStatus = true
+                   }
+               }
+           } catch {
+               await setError(error)
+           }
+       }
     }
-    
-    func createUserProfile() {
-        let db = Firestore.firestore()
-                let user = Auth.auth().currentUser
-                
-                if let user = user {
-                    // Document path can be customized as per your requirements
-                    let userProfileRef = db.collection("users").document(user.uid)
-                    
-                    let userData: [String: Any] = [
-                        "email": user.email ?? "",
-                        "username" : username,
-                        "profilePicture" : ""
-                        // Add more fields as needed
-                    ]
-                    
-                    // Set the data in Firestore
-                    userProfileRef.setData(userData) { error in
-                        if let error = error {
-                            print("Error adding document")
-                        } else {
-                            print("User profile created successfully")
-                        }
-                    }
-                }
-            }
-    
-    struct CAPage_Previews: PreviewProvider {
-        static var previews: some View {
-            CAPage()
-            
-        }
+}
+
+struct CAPage_Previews: PreviewProvider {
+    static var previews: some View {
+        CAPage()
     }
 }
